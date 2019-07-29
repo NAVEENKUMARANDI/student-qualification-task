@@ -1,0 +1,30 @@
+<form [formGroup]="qulificationProfileForm" (ngSubmit)="onSubmit()">
+  
+    <label>
+        First Name:
+        <input type="text" formControlName="firstName">
+      </label>
+      <label>
+        Last Name:
+        <input type="text" formControlName="lastName">
+      </label>
+
+<div formArrayName="qualificationArray">
+    <h3>Qualifications:</h3> 
+    <button (click)="addQualification()">Add Qualification</button>
+
+  <br><br>
+  <div *ngFor="let qualificationArrayItem of qualificationArray.controls; let qualificationIndex=index" >
+    
+
+    <div [formGroupName]="qualificationIndex">
+        <input type="checkbox" formControlName="qualificationNumber" />
+        <input type="text" formControlName="exam" />
+        <input type="text" formControlName="board" />
+        <input type="text" formControlName="percentage" />
+        <input type="text" formControlName="yearOfPassing" />
+      </div>
+  </div>
+
+</div>
+</form>
