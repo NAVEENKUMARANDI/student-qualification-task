@@ -29,7 +29,7 @@ export class ReactiveQualificationFormArrayComponent implements OnInit {
     // Without FormArray Validation
     // qualificationArray : this.fb.array([])
     // With FormArray Validation
-    qualificationArray: this.fb.array([this.qualificationFormGroup()])
+    qualificationArray: this.fb.array([])
   });
 
   qualificationFormGroup():FormGroup {
@@ -39,7 +39,7 @@ export class ReactiveQualificationFormArrayComponent implements OnInit {
     exam:  ['',[Validators.required]],
     board: ['',[Validators.required, Validators.maxLength(15)]],
     percentage: ['',[Validators.required]],
-    yearOfPassing: ['',[Validators.required]],
+    yearOfPassing: ['',[Validators.required]]
     });
   }
   
@@ -77,17 +77,7 @@ export class ReactiveQualificationFormArrayComponent implements OnInit {
 
   addQualification() {
     this.qualificationArray.push(
-      this.fb.group(
-        {
-          qualificationNumber: [''],
-          exam: [''],
-          board: [''],
-          percentage: [''],
-          yearOfPassing: ['']
-        }
-      )
+      this.qualificationFormGroup()
     );
   }
-
-
 }

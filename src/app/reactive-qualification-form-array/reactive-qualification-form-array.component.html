@@ -54,17 +54,23 @@
 
         <label>
           Board :
-          <input type="text" formControlName="board" maxlength="15" />
+          <input type="text" formControlName="board" maxlength="20" />
         </label>
 
         <div *ngIf="(qualificationArrayItem.get('board').errors && (qualificationArrayItem.get('board').dirty || qualificationArrayItem.get('board').touched)) || 
         (qualificationArrayItem.get('board').untouched && formSubmitAttempt)" class="alert alert-danger">
-          <div *ngIf="qualificationArrayItem.get('board').errors.required">Board is required.</div>
-          <span style="color:Red" ng-show="qualificationIndex.board.$error.board"> Length of Board is more than
-            15
-            chars.</span>
-        </div>
 
+          <div *ngIf="qualificationArrayItem.get('board').errors.required">
+            <span style="color:Red">Board is required.</span>
+          </div>
+
+          <div *ngIf="qualificationArrayItem.get('board').errors.maxlength">
+            <span style="color:Red"> Length of Board is
+              more than
+              15
+              chars.</span>
+          </div>
+        </div>
         <!--        <div *ngIf="board.errors?.maxlength">
           <span style="color:Red" ng-show="qualificationIndex.board.$error.board"> Length of Board is more than
             15
