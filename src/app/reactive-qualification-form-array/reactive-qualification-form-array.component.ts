@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormArray, FormControl, FormBuilder } from '@angular/forms';
+import { FormArray, FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive-qualification-form-array',
@@ -21,14 +21,28 @@ export class ReactiveQualificationFormArrayComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { }
 
-  qulificationProfileForm = this.fb.group ({
+  qulificationProfileForm = this.fb.group({
 
-      firstName: [''],
-      lastName: [''],
-      
-      "qualificationArray": this.fb.array([])
+    firstName: ['', [Validators.minLength(3), Validators.maxLength(6)]],
+    lastName: ['', [Validators.minLength(3), Validators.maxLength(6)]],
+    percentage: ['', [Validators.maxLength(50)]],
+    // Without FormArray Validation
+    // qualificationArray : this.fb.array([])
+    // With FormArray Validation
+    qualificationArray: this.fb.array([this.qualificationFormGroup()])
+  });
+
+  qualificationFormGroup():FormGroup {
+    return this.fb.group({
+
+    qualificationNumber: ['',Validators.required],
+    exam:  ['',[Validators.required]],
+    board: ['',[Validators.required, Validators.maxLength(15)]],
+    percentage: ['',[Validators.required]],
+    yearOfPassing: ['',[Validators.required]],
     });
-
+  }
+  
   ngOnInit() {
 
     this.qualificationArrayItems = [];
@@ -43,6 +57,22 @@ export class ReactiveQualificationFormArrayComponent implements OnInit {
 
   get qualificationArray() {
     return this.qulificationProfileForm.get('qualificationArray') as FormArray;
+  }
+
+  get firstName() {
+    return this.qulificationProfileForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.qulificationProfileForm.get('lastName');
+  }
+
+  get percentage() {
+    return this.qulificationProfileForm.get('percentage');
+  }
+
+  get board() {
+    return this.qulificationProfileForm.get('board');
   }
 
   addQualification() {

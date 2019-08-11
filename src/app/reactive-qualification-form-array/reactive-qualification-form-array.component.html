@@ -1,30 +1,99 @@
 <form [formGroup]="qulificationProfileForm" (ngSubmit)="onSubmit()">
-  
-    <label>
-        First Name:
-        <input type="text" formControlName="firstName">
-      </label>
-      <label>
-        Last Name:
-        <input type="text" formControlName="lastName">
-      </label>
 
-<div formArrayName="qualificationArray">
-    <h3>Qualifications:</h3> 
-    <button (click)="addQualification()">Add Qualification</button>
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName">
+  </label>
 
-  <br><br>
-  <div *ngFor="let qualificationArrayItem of qualificationArray.controls; let qualificationIndex=index" >
-    
-
-    <div [formGroupName]="qualificationIndex">
-        <input type="checkbox" formControlName="qualificationNumber" />
-        <input type="text" formControlName="exam" />
-        <input type="text" formControlName="board" />
-        <input type="text" formControlName="percentage" />
-        <input type="text" formControlName="yearOfPassing" />
-      </div>
+  <div *ngIf="firstName.errors?.minlength">
+    <span style="color:Red" ng-show="qulificationProfileForm.firstName.$error.firstName"> Length of FirstName is
+      lesser
+      than 3
+      chars. </span>
   </div>
 
-</div>
+  <div *ngIf="firstName.errors?.maxlength">
+    <span style="color:Red" ng-show="qulificationProfileForm.firstName.$error.firstName"> Length of FirstName is
+      more than
+      6
+      chars. </span>
+  </div>
+
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+  </label>
+
+  <div *ngIf="lastName.errors?.minlength">
+    <span style="color:Red" ng-show="qulificationProfileForm.lastName.$error.lastName"> Length of LastName is lesser
+      than
+      3
+      chars.</span>
+  </div>
+
+  <div *ngIf="lastName.errors?.maxlength">
+    <span style="color:Red" ng-show="qulificationProfileForm.lastName.$error.lastName"> Length of LastName is more than
+      6
+      chars.</span>
+  </div>
+
+  <div formArrayName="qualificationArray">
+    <h3>Qualifications:</h3>
+    <button (click)="addQualification()">Add Qualification</button>
+
+    <br><br>
+    <div *ngFor="let qualificationArrayItem of qualificationArray.controls; let qualificationIndex=index">
+
+
+      <div [formGroupName]="qualificationIndex">
+        <input type="checkbox" formControlName="qualificationNumber" />
+        <label>
+          Exam :
+          <input type="text" formControlName="exam" />
+        </label>
+
+        <label>
+          Board :
+          <input type="text" formControlName="board" maxlength="15" />
+        </label>
+
+        <div *ngIf="(qualificationArrayItem.get('board').errors && (qualificationArrayItem.get('board').dirty || qualificationArrayItem.get('board').touched)) || 
+        (qualificationArrayItem.get('board').untouched && formSubmitAttempt)" class="alert alert-danger">
+          <div *ngIf="qualificationArrayItem.get('board').errors.required">Board is required.</div>
+          <span style="color:Red" ng-show="qualificationIndex.board.$error.board"> Length of Board is more than
+            15
+            chars.</span>
+        </div>
+
+        <!--        <div *ngIf="board.errors?.maxlength">
+          <span style="color:Red" ng-show="qualificationIndex.board.$error.board"> Length of Board is more than
+            15
+            chars.</span>
+        </div>
+-->
+        <label>
+          Percentage :
+          <input type="text" formControlName="percentage" />
+        </label>
+
+        <!--        <div *ngIf="percentage.errors?.maxlength">
+          <span style="color:Red" ng-show="qualificationIndex.percentage.$error.percentage"> Length of Percentage is
+            more than
+            50
+            chars.</span>
+        </div>
+-->
+        <label>
+          Year Of Passing :
+          <input type="text" formControlName="yearOfPassing" />
+        </label>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="isSubmitted && myForm.invalid">
+    <p>Please select either value</p>
+  </div>
+
+  <button type="submit" [disabled]="!qulificationProfileForm.valid">Submit</button>
 </form>
